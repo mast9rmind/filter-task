@@ -13,7 +13,7 @@ function DataList() {
     setVisible,
     selectedSubDropdown,
     filter,
-    setFilter
+    setFilter,
   } = useContext(DataContext);
 
   const updatedTaskObj = task.map((task) => {
@@ -24,55 +24,48 @@ function DataList() {
     return { ...task, names };
   });
 
-  // const filteredTasks = updatedTaskObj.filter(
-  //   (task) =>
-  //     selectedSubDropdown.includes(task.label) ||
-  //     selectedSubDropdown.includes(task.priorities) ||
-  //     task.names.some((name) => selectedSubDropdown.includes(name)) &&
-  //     task.description.toLocaleLowerCase().includes(searchContent)
-  // );
+// const filteredTasks =
+  // selectedSubDropdown.length > 0
+  //   ? updatedTaskObj.filter(
+  //       (task) =>
+  //         selectedSubDropdown.includes(task.label) ||
+  //         selectedSubDropdown.includes(task.priorities) ||
+  //         task.names.some((name) => selectedSubDropdown.includes(name)) &&
+  //         task.description.toLocaleLowerCase().includes(searchContent)
+  //     )
+  //   : updatedTaskObj;
 
   const filteredTasks =
-  selectedSubDropdown.length > 0
-    ? updatedTaskObj.filter(
-        (task) =>
-          (selectedSubDropdown.includes(task.label) ||
-          selectedSubDropdown.includes(task.priorities) ||
-          task.names.some((name) => selectedSubDropdown.includes(name)))
-      )
-    : updatedTaskObj;
+    selectedSubDropdown.length > 0
+      ? updatedTaskObj.filter(
+          (task) =>
+            selectedSubDropdown.includes(task.label) ||
+            selectedSubDropdown.includes(task.priorities) ||
+            task.names.some((name) => selectedSubDropdown.includes(name))
+        )
+      : updatedTaskObj;
 
-    // setFilter(filteredTasks)
-
-    // useEffect(() =>    setFilter(filteredTasks),  []   )
-
-  //   const searchFilter = updatedTaskObj.filter((filter) =>
-  //   filter.description.toLocaleLowerCase().includes(searchContent)
-  // );
-
-  const searchFilter =
- filteredTasks.filter(
-        (task) =>
-        task.description.toLocaleLowerCase().includes(searchContent)
-      )
-  // setFilter(searchFilter)
-
-  // useEffect(() =>    setFilter(searchFilter),  []   )
-
+  const searchFilter = filteredTasks.filter((task) =>
+    task.description.toLocaleLowerCase().includes(searchContent)
+  );
 
   const searchContentHandler = (event) => setSearchContent(event.target.value);
 
-  const closeSearch = () =>     setVisible(false)
+    // useEffect(() => {
+  //   const identifier = setTimeout(() => {
+  //     if (selectedSubDropdown.includes(searchContent)) {
+  //       setSelectedSubDropdown(selectedSubDropdown.filter((filter) => filter !== searchContent));
+  //     } else {
+  //       setSelectedSubDropdown([...selectedSubDropdown, searchContent]);
+  //     }
+  //   }, 500);
 
-  // const filteredTasks = updatedTaskObj.filter(
-  //   (task) =>
-  //     (selectedSubDropdown.length === 0 ||
-  //       selectedSubDropdown.includes(task.label)) &&
-  //     (selectedSubDropdown.length === 0 || selectedSubDropdown.includes(task.priorities)) &&
-  //     (selectedSubDropdown.length === 0 || task.names.some((name) => selectedSubDropdown.includes(name))
-  // ));
+  //   return () => {
+  //     clearTimeout(identifier);
+  //   };
+  // }, [searchContent]);
 
-  // console.log(filteredTasks, updatedTaskObj);
+  const closeSearch = () => setVisible(false);
 
   return (
     <Fragment>
@@ -88,47 +81,48 @@ function DataList() {
           </Table.HeadCell>
         </Table.Head>
         <Table.Body className="divide-y">
-          {selectedSubDropdown.length > 0 ?     filteredTasks.map((item) => (
-      <Table.Row
-        key={item["assignee id"]}
-        className="bg-white dark:border-gray-700 dark:bg-gray-800"
-      >
-        <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-          {item["task name"]}
-        </Table.Cell>
-        <Table.Cell>{item.description}</Table.Cell>
-        <Table.Cell>{item.date}</Table.Cell>
-        <Table.Cell>{item.priorities}</Table.Cell>
-        <Table.Cell>{item.label}</Table.Cell>
-        <Table.Cell>
-          {item.names.map((i, idx) => (
-            <span className="mx-2" key={idx}>
-              {i}
-            </span>
-          ))}
-        </Table.Cell>
-      </Table.Row>
-    )):     searchFilter.map((item) => (
-      <Table.Row
-        key={item["assignee id"]}
-        className="bg-white dark:border-gray-700 dark:bg-gray-800"
-      >
-        <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-          {item["task name"]}
-        </Table.Cell>
-        <Table.Cell>{item.description}</Table.Cell>
-        <Table.Cell>{item.date}</Table.Cell>
-        <Table.Cell>{item.priorities}</Table.Cell>
-        <Table.Cell>{item.label}</Table.Cell>
-        <Table.Cell>
-          {item.names.map((i, idx) => (
-            <span className="mx-2" key={idx}>
-              {i}
-            </span>
-          ))}
-        </Table.Cell>
-      </Table.Row>
-    ))}
+          { filteredTasks.map((item) => (
+                <Table.Row
+                  key={item["assignee id"]}
+                  className="bg-white dark:border-gray-700 dark:bg-gray-800"
+                >
+                  <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                    {item["task name"]}
+                  </Table.Cell>
+                  <Table.Cell>{item.description}</Table.Cell>
+                  <Table.Cell>{item.date}</Table.Cell>
+                  <Table.Cell>{item.priorities}</Table.Cell>
+                  <Table.Cell>{item.label}</Table.Cell>
+                  <Table.Cell>
+                    {item.names.map((i, idx) => (
+                      <span className="mx-2" key={idx}>
+                        {i}
+                      </span>
+                    ))}
+                  </Table.Cell>
+                </Table.Row>
+              ))
+            && searchFilter.map((item) => (
+                <Table.Row
+                  key={item["assignee id"]}
+                  className="bg-white dark:border-gray-700 dark:bg-gray-800"
+                >
+                  <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                    {item["task name"]}
+                  </Table.Cell>
+                  <Table.Cell>{item.description}</Table.Cell>
+                  <Table.Cell>{item.date}</Table.Cell>
+                  <Table.Cell>{item.priorities}</Table.Cell>
+                  <Table.Cell>{item.label}</Table.Cell>
+                  <Table.Cell>
+                    {item.names.map((i, idx) => (
+                      <span className="mx-2" key={idx}>
+                        {i}
+                      </span>
+                    ))}
+                  </Table.Cell>
+                </Table.Row>
+              ))}
         </Table.Body>
       </Table>
       {visible ? (
