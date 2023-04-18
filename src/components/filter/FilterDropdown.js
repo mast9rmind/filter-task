@@ -1,5 +1,8 @@
 import React, { Fragment, useCallback, useContext } from "react";
-import { Dropdown } from "flowbite-react";
+import {
+  Dropdown,
+  Modal,
+} from "flowbite-react";
 import DataContext from "../store/list-context";
 import Search from "../search/Search";
 
@@ -13,9 +16,14 @@ function FilterDropdown() {
     selectedField,
     setSelectedField,
     search,
+    searchContent,
+    setSearchContent,
     setMyBool,
     setSubFilter,
+    visible,
     setVisible,
+    filter,
+    setFilter
   } = useContext(DataContext);
 
   const assigneeHandler = (event) => {
@@ -59,17 +67,16 @@ function FilterDropdown() {
     setCount(count + 1);
   };
 
-  console.log("sf", selectedField);
+  console.log("sf", selectedField)
 
   const searchFilterDropdown = field.filter((filterDropdown) =>
     filterDropdown.toLocaleLowerCase().includes(search)
   );
 
   const searchHandler = (event) => {
-    setMyBool(false);
-    setVisible(true);
-    setSelectedField([...selectedField, event.target.innerText]);
-    setCount(count + 1);
+    setMyBool(false)
+    setVisible(true)
+    setFilter([...filter, event.target.innerText])
   };
 
   const dropdown = searchFilterDropdown.map((item) => {

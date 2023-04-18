@@ -64,6 +64,7 @@ export const DataContextProvider = (props) => {
   const [myBool, setMyBool] = useState(false);
   const [count, setCount] = useState(0);
   const [visible, setVisible] = useState(false);
+  const [filter, setFilter] = useState([]);
 
   console.log("selectedSubDropdown", selectedSubDropdown);
   console.log("subFilter", subFilter);
@@ -92,7 +93,9 @@ export const DataContextProvider = (props) => {
         count,
         setCount,
         visible,
-        setVisible
+        setVisible,
+        filter,
+        setFilter
       }}
     >
       {props.children}
