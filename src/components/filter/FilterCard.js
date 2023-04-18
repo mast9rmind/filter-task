@@ -13,7 +13,7 @@ function FilterCard() {
 
   return (
     <Fragment>
-      <Dropdown label="Filter" dismissOnClick={true} onClick={dropdownChangeHandler} className="px-1 rounded-lg grid gap-4" color="purple" bac>
+      <Dropdown label="Filter" dismissOnClick={true} onClick={dropdownChangeHandler} className="px-1 rounded-lg grid gap-4" color="purple">
         {!myBool ? <FilterDropdown /> : <FilterSubDropDown/>}
       </Dropdown>
     </Fragment>
