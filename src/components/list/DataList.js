@@ -23,25 +23,46 @@ function DataList() {
     return { ...task, names };
   });
 
+  // const filteredTasks =
+  // selectedSubDropdown.length > 0
+  //   ? updatedTaskObj.filter(
+  //       (task) =>
+  //         selectedSubDropdown.includes(task.label) ||
+  //         selectedSubDropdown.includes(task.priorities) ||
+  //         task.names.some((name) => selectedSubDropdown.includes(name)) &&
+  //         task.description.toLocaleLowerCase().includes(searchContent)
+  //     )
+  //   : updatedTaskObj;
+
+  const filteredTasks =
+    selectedSubDropdown.length > 0
+      ? updatedTaskObj.filter(
+          (task) =>
+            selectedSubDropdown.includes(task.label) ||
+            selectedSubDropdown.includes(task.priorities) ||
+            task.names.some((name) => selectedSubDropdown.includes(name))
+        )
+      : updatedTaskObj;
+
   const searchContentHandler = (event) => {
     const dropdownValue = event.target.value;
 
     setSearchContent(dropdownValue);
   };
 
-  useEffect(() => {
-    const identifier = setTimeout(() => {
-      if (selectedSubDropdown.includes(searchContent)) {
-        setSelectedSubDropdown(selectedSubDropdown.filter((filter) => filter !== searchContent));
-      } else {
-        setSelectedSubDropdown([...selectedSubDropdown, searchContent]);
-      }
-    }, 500);
+  // useEffect(() => {
+  //   const identifier = setTimeout(() => {
+  //     if (selectedSubDropdown.includes(searchContent)) {
+  //       setSelectedSubDropdown(selectedSubDropdown.filter((filter) => filter !== searchContent));
+  //     } else {
+  //       setSelectedSubDropdown([...selectedSubDropdown, searchContent]);
+  //     }
+  //   }, 500);
 
-    return () => {
-      clearTimeout(identifier);
-    };
-  }, [searchContent]);
+  //   return () => {
+  //     clearTimeout(identifier);
+  //   };
+  // }, [searchContent]);
 
   const closeSearch = () => setVisible(false);
 
