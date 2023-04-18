@@ -37,19 +37,19 @@ function DataList() {
     setSearchContent(dropdownValue);
   };
 
-  useEffect(() => {
-    const identifier = setTimeout(() => {
-      if (selectedSubDropdown.includes(searchContent)) {
-        setSelectedSubDropdown(selectedSubDropdown.filter((filter) => filter !== searchContent));
-      } else {
-        setSelectedSubDropdown([...selectedSubDropdown, searchContent]);
-      }
-    }, 500);
+  // useEffect(() => {
+  //   const identifier = setTimeout(() => {
+  //     if (selectedSubDropdown.includes(searchContent)) {
+  //       setSelectedSubDropdown(selectedSubDropdown.filter((filter) => filter !== searchContent));
+  //     } else {
+  //       setSelectedSubDropdown([...selectedSubDropdown, searchContent]);
+  //     }
+  //   }, 500);
 
-    return () => {
-      clearTimeout(identifier);
-    };
-  }, [searchContent]);
+  //   return () => {
+  //     clearTimeout(identifier);
+  //   };
+  // }, [searchContent]);
 
   const closeSearch = () => setVisible(false);
 

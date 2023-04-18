@@ -35,9 +35,9 @@ function SelectedFilters() {
         ></path>
       </svg>
       <p>{selectedField}</p>
-      <p> {selectedSubDropdown.length > 1 ? `are` : `is`}</p>
+      <p>:</p>
       <p>
-        {selectedSubDropdown.join(', ')}
+        {selectedSubDropdown.join(' ')}
       </p>
       <button onClick={removeFilterHandler}>
         {" "}
