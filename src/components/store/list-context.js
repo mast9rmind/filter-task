@@ -51,7 +51,7 @@ export const DataContextProvider = (props) => {
     },
   ];
 
-  const fields = ["Task Name", "Description", "Date", "Priorities", "Label", "Assignee"];
+  const fields = ["Description",, "Priorities", "Label", "Assignee"];
 
   const [user, setUser] = useState(users);
   const [task, setTask] = useState(tasks);
