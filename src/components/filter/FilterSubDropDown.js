@@ -1,33 +1,39 @@
 import React, { Fragment, useContext, useRef } from "react";
 import { Dropdown, Checkbox, Label } from "flowbite-react";
-import DataContext from "../store/list-context";
-import Search from './../search/Search';
+import DataContext from "../context/DataProvider";
+import DropdownSearch from '../search/DropdownSearch';
 
 function FilterSubDropDown() {
-  const { subFilter, search, selectedSubDropdown, setSelectedSubDropdown } = useContext(DataContext);
+  const { searchState, filterState, dispatchFilter } = useContext(DataContext);
   const checkbox = useRef();
 
   const filterHandler = (event) => {
     const subDropdownValue = event.target.value;
     
-    if (selectedSubDropdown.includes(subDropdownValue)) {
-      setSelectedSubDropdown(selectedSubDropdown.filter((filter) => filter !== subDropdownValue));
+    if (filterState.selectedFilteredSubDropdown.includes(subDropdownValue)) {
+      dispatchFilter({
+        type: "SELECTED_FILTERED_SUBDROPDOWN",
+        value: filterState.selectedFilteredSubDropdown.filter((filter) => filter !== subDropdownValue),
+      });
     } else {
-      setSelectedSubDropdown([...selectedSubDropdown, subDropdownValue]);
+      dispatchFilter({
+        type: "SELECTED_FILTERED_SUBDROPDOWN",
+        value: [...filterState.selectedFilteredSubDropdown, subDropdownValue],
+      });
     }
   }
 
-  const searchFilterDubDropdown = subFilter.filter(
+  const searchFilterDubDropdown = filterState.filteredSubDropdown.filter(
     (filterSubDropdown) =>
-    filterSubDropdown.itemSubFilter.toLocaleLowerCase().includes(search)
+    filterSubDropdown.itemSubFilter.toLocaleLowerCase().includes(searchState.dropdownSearch)
   );
 
   return (
     <Fragment>
-      <Search />
+      <DropdownSearch />
       {searchFilterDubDropdown.map((item) => (
         <Dropdown.Item key={item.id} className="flex gap-2 hover:rounded-lg">
-          <Checkbox className="text-violet-600 focus:ring-1 focus:ring-violet-500 hover:cursor-pointer" ref={checkbox} id={item.id} checked={selectedSubDropdown.includes(item.itemSubFilter)} value={item.itemSubFilter} onChange={filterHandler}/>
+          <Checkbox className="text-violet-600 focus:ring-1 focus:ring-violet-500 hover:cursor-pointer" ref={checkbox} id={item.id} checked={filterState.selectedFilteredSubDropdown.includes(item.itemSubFilter)} value={item.itemSubFilter} onChange={filterHandler}/>
           <Label htmlFor={item.id} className="font-normal hover:cursor-pointer w-full">{item.itemSubFilter}</Label>
         </Dropdown.Item>
       ))}

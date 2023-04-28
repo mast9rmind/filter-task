@@ -1,82 +1,98 @@
-import React, { Fragment, useCallback, useContext } from "react";
-import {
-  Dropdown,
-  Modal,
-} from "flowbite-react";
-import DataContext from "../store/list-context";
-import Search from "../search/Search";
+import React, { Fragment, useContext } from "react";
+import { Dropdown } from "flowbite-react";
+import DataContext from "../context/DataProvider";
+import Search from "../search/DropdownSearch";
 
 function FilterDropdown() {
   const {
     task,
     user,
-    count,
     setCount,
-    field,
-    selectedField,
-    setSelectedField,
-    search,
-    searchContent,
-    setSearchContent,
-    setMyBool,
-    setSubFilter,
-    visible,
-    setVisible,
-    filter,
-    setFilter
+    filterState,
+    dispatchFilter,
+    searchState,
+    dispatchIsBoolean,
   } = useContext(DataContext);
 
   const assigneeHandler = (event) => {
-    setMyBool(true);
+    dispatchIsBoolean({
+      type: "SET_ISSHOW",
+      isValid: true,
+    });
     const assigneeData = user.map((item) => {
       return {
         itemSubFilter: item.name,
         id: item.id,
       };
     });
-
-    setSubFilter(assigneeData);
-    setSelectedField([...selectedField, event.target.innerText]);
-    setCount(count + 1);
+    dispatchFilter({
+      type: "FILTERED_SUBDROPDOWN",
+      value: assigneeData,
+    });
+    dispatchFilter({
+      type: "SELECTED_FILTERED_DROPDOWN",
+      value: [...filterState.selectedFilteredDropdown, event.target.innerText],
+    });
+    setCount(prev=> prev + 1);
   };
 
   const labelHandler = (event) => {
-    setMyBool(true);
+    dispatchIsBoolean({
+      type: "SET_ISSHOW",
+      isValid: true,
+    });
     const labelData = task.map((item) => {
       return {
         itemSubFilter: item.label,
         id: item["assignee id"],
       };
     });
-
-    setSubFilter(labelData);
-    setSelectedField([...selectedField, event.target.innerText]);
-    setCount(count + 1);
+    dispatchFilter({
+      type: "FILTERED_SUBDROPDOWN",
+      value: labelData,
+    });
+    dispatchFilter({
+      type: "SELECTED_FILTERED_DROPDOWN",
+      value: [...filterState.selectedFilteredDropdown, event.target.innerText],
+    });
+    setCount(prev=> prev + 1);
   };
 
   const prioritiesHandler = (event) => {
-    setMyBool(true);
+    dispatchIsBoolean({
+      type: "SET_ISSHOW",
+      isValid: true,
+    });
     const prioritiesData = task.map((item) => {
       return {
         itemSubFilter: item.priorities,
         id: item["assignee id"],
       };
     });
-    setSubFilter(prioritiesData);
-    setSelectedField([...selectedField, event.target.innerText]);
-    setCount(count + 1);
+    dispatchFilter({
+      type: "FILTERED_SUBDROPDOWN",
+      value: prioritiesData,
+    });
+    dispatchFilter({
+      type: "SELECTED_FILTERED_DROPDOWN",
+      value: [...filterState.selectedFilteredDropdown, event.target.innerText],
+    });
+    setCount(prev=> prev + 1);
   };
 
-  console.log("sf", selectedField)
-
-  const searchFilterDropdown = field.filter((filterDropdown) =>
-    filterDropdown.toLocaleLowerCase().includes(search)
+  const searchFilterDropdown = filterState.filteredDropdown.filter((filterDropdown) =>
+    filterDropdown.toLocaleLowerCase().includes(searchState.dropdownSearch)
   );
 
   const searchHandler = (event) => {
-    setMyBool(false)
-    setVisible(true)
-    setFilter([...filter, event.target.innerText])
+    dispatchIsBoolean({
+      type: "SET_ISSHOW",
+      isValid: false,
+    });
+    dispatchIsBoolean({
+      type: "SET_ISVISIBLE",
+      isValid: true,
+    });
   };
 
   const dropdown = searchFilterDropdown.map((item) => {
@@ -113,19 +129,6 @@ function FilterDropdown() {
     <Fragment>
       <Search />
       {dropdown}
-      {/* <React.Fragment>
-        <Modal
-          show={visible}
-          size="md"
-          popup={true}
-          onClose={() => setVisible(false)}
-        >
-          <Modal.Header />
-          <Modal.Body>
-
-          </Modal.Body>
-        </Modal>
-      </React.Fragment> */}
     </Fragment>
   );
 }
